@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="x-dns-prefetch-control" content="on">
+    <link rel="dns-prefetch" href="https://cdn.bootcss.com">
+	
+	<title>新的一年</title>
+	
+	<!-- MDUI -->
+	<link rel="stylesheet" href="https://cdn.bootcss.com/mdui/0.2.1/css/mdui.min.css">
+    <script src="https://cdn.bootcss.com/mdui/0.2.1/js/mdui.min.js"></script>
+	
+	<meta name="keywords" content="New Year, 元旦, 新年, Trumeet, Yuuta, 2017, 2018">
+	
+	<meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="480">
+    <meta name="mobile-web-app-capable" content="yes">
+    <link rel="icon shortcut" type="image/png" href="img\\icon.png">
+    <link rel="icon" sizes="192x192" href="img\\icon.png">
+    <link rel="apple-touch-icon" href="img\\icon.png">
+	<script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+	<script src="./countdown/jquery.countdown.js"></script>
+</head>
+	
+<body class="mdui-appbar-with-toolbar">
+    <!-- appbar -->
+    <div class="mdui-appbar mdui-appbar-fixed mdui-color-white">
+        <div class="mdui-toolbar">
+            <a class="mdui-btn mdui-btn-icon"></a><span class="mdui-typo-title">Happy New Year!</span>
+            <div class="mdui-toolbar-spacer">
+            </div>
+        </div>
+    </div>
+
+    <!-- body -->
+    <div class="mdui-container">
+        <div class="mdui-hidden-sm-up">
+			<img class="mdui-center" src="img\\icon_main.png" width="96px">
+        </div>
+        <div class="mdui-hidden-xs-down">
+            <img class="mdui-center" src="img\\icon_main.png" width="128px">
+        </div>
+        <div class="mdui-row mdui-center">
+            <div class="mdui-col-xs-12 mdui-col-sm-10 mdui-col-offset-sm-1">
+                <div class="mdui-card-content mdui-text-center">
+                    <div id="countdown" class="mdui-typo-title-opacity"></div><br>
+				
+                </div>
+            </div>
+        </div>
+        <div class="mdui-divider">
+        </div>
+        <br>
+
+        <!-- footer -->
+        <div class="mdui-typo-subheading-opacity mdui-text-center" style="bottom:16px">
+            <span>Copyright © Trumeet</span><br>
+            <span>Source on <a href="https://github.com/Trumeet/NewYear" target="_blank" style="text-decoration:none">GitHub</a></span><br>
+			<!-- <span>UTC+08:00</span> -->
+        </div>
+        <br>
+		
+    <!-- new year dialog -->
+    <div class="mdui-dialog" id="new-year-alert">
+        <div class="mdui-dialog-title">新年的钟声已经敲响</div>
+  <div class="mdui-dialog-content">2018 年到了，快去庆祝新年吧ヽ(✿ﾟ▽ﾟ)ノ，几秒前就是去年了哦~<br>Yuuta 祝你在新的一年里一切顺利~</div>
+  <div class="mdui-dialog-actions">
+    <button class="mdui-btn mdui-ripple" mdui-dialog-cancel>关掉</button>
+  </div>
+    </div>
+		
+		<script type="text/javascript">
+$(window).on('load', function() {
+	var finish = true;
+  var fiveSeconds = new Date().getTime() + 3000;
+$('#countdown').countdown("2018/1/1", {elapse: true})
+.on('update.countdown', function(event) {
+  var $this = $(this);
+  if (event.elapsed) {
+    if (finish == false) {
+	  // 这里是 finish，由于 elapse 设置为 true，就不会调用 finish callback，所以手写了一个 2333
+	  mdui.snackbar({
+                message: '新年的钟声已经敲响！'
+            });
+	    var inst = new mdui.Dialog("#new-year-alert", {history: false, closeOnEsc: false});
+		inst.open();
+	  
+	}
+	finish = true;
+    $this.html(event.strftime('2018 年已经过去<br><span>%D 天 %H小时 %M分钟 %S秒</span>'));
+  } else {
+	finish = false;
+    $this.html(event.strftime('距离新的一年还有<br><span>%D 天 %H小时 %M分钟 %S秒</span>'));
+  }
+})});
+</script>
+    </div>
+</html>
